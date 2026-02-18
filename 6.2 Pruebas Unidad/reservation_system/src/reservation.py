@@ -18,4 +18,5 @@ class Reservation:
         """
         Placeholder for cancel logic.
         """
+        # Only a placeholder, actual cancellation logic would go here.
         return f"Reservation {self.reservation_id} cancelled."
