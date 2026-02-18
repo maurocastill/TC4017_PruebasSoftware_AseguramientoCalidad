@@ -1,0 +1,10 @@
+Results for source/TC5.txt
+------------------------------
+Count:      311
+Mean:       241.4951
+Median:     241.0000
+Mode:       393.0
+SD.P:       145.4648
+Variance.S: 21229.1724
+Time:       0.008572 seconds
+

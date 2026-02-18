@@ -1,0 +1,10 @@
+Results for source/TC1.txt
+------------------------------
+Count:      400
+Mean:       242.3200
+Median:     239.5000
+Mode:       393.0
+SD.P:       145.2581
+Variance.S: 21152.7996
+Time:       0.015789 seconds
+

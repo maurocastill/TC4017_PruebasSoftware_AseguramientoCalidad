@@ -1,0 +1,10 @@
+Results for source/TC4.txt
+------------------------------
+Count:      12624
+Mean:       149.0027
+Median:     147.7500
+Mode:       123.75
+SD.P:       130.4144
+Variance.S: 17009.2682
+Time:       6.026298 seconds
+

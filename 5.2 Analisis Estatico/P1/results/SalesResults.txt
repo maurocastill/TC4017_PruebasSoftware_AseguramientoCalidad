@@ -1,0 +1,10 @@
+Sales Report
+------------------------------
+Total Cost: $165,235.37
+Execution Time: 0.001024 seconds
+------------------------------
+
+Errors detected during processing:
+Error: Product 'Elotes' not found in price catalogue.
+Error: Product 'Frijoles' not found in price catalogue.
+------------------------------

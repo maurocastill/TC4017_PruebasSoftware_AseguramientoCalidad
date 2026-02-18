@@ -1,0 +1,10 @@
+Results for source/TC3.txt
+------------------------------
+Count:      12624
+Mean:       249.7762
+Median:     249.0000
+Mode:       94.0
+SD.P:       145.3178
+Variance.S: 21118.9504
+Time:       5.843312 seconds
+

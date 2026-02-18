@@ -1,0 +1,10 @@
+Results for source/TC2.txt
+------------------------------
+Count:      1977
+Mean:       250.7840
+Median:     247.0000
+Mode:       230.0
+SD.P:       144.1713
+Variance.S: 20795.8880
+Time:       0.127304 seconds
+
