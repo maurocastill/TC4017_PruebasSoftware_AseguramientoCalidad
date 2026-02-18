@@ -32,6 +32,19 @@ class TestCustomer(unittest.TestCase):
         mock_get.return_value = [self.customer]
         result = Customer.delete_customer(1)
         self.assertTrue(result)
+    
+    def test_to_dict(self):
+        """Test dictionary serialization."""
+        self.assertEqual(self.customer.to_dict()['name'], "John Doe")
 
+    @patch("src.customer.Customer.get_all")
+    @patch("src.customer.Customer.save_all")
+    def test_modify_customer(self, mock_save, mock_get):
+        """Test modifying customer attributes."""
+        mock_get.return_value = [self.customer]
+        result = Customer.modify_customer(1, name="Jane Doe")
+        self.assertTrue(result)
+        self.assertEqual(self.customer.name, "Jane Doe")
+        
 if __name__ == "__main__":
     unittest.main()

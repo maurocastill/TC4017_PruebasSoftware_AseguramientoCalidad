@@ -24,6 +24,24 @@ class TestReservation(unittest.TestCase):
         # Customer get_all returns empty, so customer 1 doesn't exist
         result = Reservation.create_reservation(100, 1, 10)
         self.assertFalse(result)
+    
+    def setUp(self):
+        """Initialize test data."""
+        self.reservation = Reservation(100, 1, 10)
+
+    def test_to_dict(self):
+        """Test dictionary serialization."""
+        self.assertEqual(self.reservation.to_dict()['customer_id'], 1)
+
+    @patch("src.reservation.Reservation.get_all")
+    @patch("src.hotel.Hotel.cancel_reservation", return_value=True)
+    @patch("src.reservation.Reservation.save_all")
+    def test_cancel_reservation(self, mock_save, mock_hotel_cancel, mock_get):
+        """Test cancelling a reservation."""
+        mock_get.return_value = [self.reservation]
+        result = Reservation.cancel_reservation(100)
+        self.assertTrue(result)
+        self.assertTrue(mock_hotel_cancel.called)
 
 if __name__ == "__main__":
     unittest.main()

@@ -54,6 +54,38 @@ class TestHotel(unittest.TestCase):
         mock_get.return_value = [full_hotel]
         result = Hotel.reserve_room(2)
         self.assertFalse(result)
+    
+    def test_to_dict(self):
+        """Test dictionary serialization."""
+        self.assertEqual(self.hotel.to_dict()['name'], "Test")
+
+    @patch("src.hotel.Hotel.get_all")
+    @patch("src.hotel.Hotel.save_all")
+    def test_delete_hotel(self, mock_save, mock_get):
+        """Test successful deletion of a hotel."""
+        mock_get.return_value = [self.hotel]
+        result = Hotel.delete_hotel(1)
+        self.assertTrue(result)
+        self.assertTrue(mock_save.called)
+
+    @patch("src.hotel.Hotel.get_all")
+    @patch("src.hotel.Hotel.save_all")
+    def test_modify_hotel(self, mock_save, mock_get):
+        """Test modifying hotel attributes."""
+        mock_get.return_value = [self.hotel]
+        result = Hotel.modify_hotel(1, name="New Name")
+        self.assertTrue(result)
+        self.assertEqual(self.hotel.name, "New Name")
+        
+    @patch("src.hotel.Hotel.get_all")
+    @patch("src.hotel.Hotel.save_all")
+    def test_cancel_reservation(self, mock_save, mock_get):
+        """Test restoring available rooms upon cancellation."""
+        self.hotel.available_rooms = 9  # Simular que hay una habitación ocupada
+        mock_get.return_value = [self.hotel]
+        result = Hotel.cancel_reservation(1)
+        self.assertTrue(result)
+        self.assertEqual(self.hotel.available_rooms, 10)
 
 if __name__ == "__main__":
     unittest.main()
