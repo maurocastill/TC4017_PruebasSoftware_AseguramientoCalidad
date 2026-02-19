@@ -7,6 +7,7 @@ class Hotel:
     FILE_PATH = 'data/hotels.json'
 
     def __init__(self, hotel_id, name, city, rooms, available_rooms=None):
+        # pylint: disable=too-many-arguments, too-many-positional-arguments
         # Validation for hotel attributes, ensuring data integrity.
         # hotel_id must be a positive integer, rooms must be a non-negative integer,
         # and name/city cannot be empty.
@@ -56,7 +57,7 @@ class Hotel:
         if any(h.hotel_id == hotel_id for h in hotels):
             print(f"Error: Hotel ID {hotel_id} already exists.")
             return False
-        
+
         try:
             new_hotel = cls(hotel_id, name, city, rooms)
         except ValueError as error:
