@@ -7,6 +7,16 @@ class Hotel:
     FILE_PATH = 'data/hotels.json'
 
     def __init__(self, hotel_id, name, city, rooms, available_rooms=None):
+        # Validation for hotel attributes, ensuring data integrity.
+        # hotel_id must be a positive integer, rooms must be a non-negative integer,
+        # and name/city cannot be empty.
+        if not isinstance(hotel_id, int) or hotel_id <= 0:
+            raise ValueError("Hotel ID must be a positive integer.")
+        if not isinstance(rooms, int) or rooms < 0:
+            raise ValueError("Rooms must be a positive integer.")
+        if not name or not city:
+            raise ValueError("Name and city cannot be empty.")
+
         self.hotel_id = hotel_id
         self.name = name
         self.city = city
@@ -46,7 +56,13 @@ class Hotel:
         if any(h.hotel_id == hotel_id for h in hotels):
             print(f"Error: Hotel ID {hotel_id} already exists.")
             return False
-        new_hotel = cls(hotel_id, name, city, rooms)
+        
+        try:
+            new_hotel = cls(hotel_id, name, city, rooms)
+        except ValueError as error:
+            print(f"Validation Error: {error}")
+            return False
+
         hotels.append(new_hotel)
         cls.save_all(hotels)
         return True
@@ -68,8 +84,10 @@ class Hotel:
         hotels = cls.get_all()
         for h in hotels:
             if h.hotel_id == hotel_id:
-                h.name = name if name else h.name
-                h.city = city if city else h.city
+                if name:
+                    h.name = name
+                if city:
+                    h.city = city
                 cls.save_all(hotels)
                 return True
         return False

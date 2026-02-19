@@ -86,6 +86,24 @@ class TestHotel(unittest.TestCase):
         result = Hotel.cancel_reservation(1)
         self.assertTrue(result)
         self.assertEqual(self.hotel.available_rooms, 10)
+    
+    def test_invalid_rooms_type(self):
+        """Test that invalid room types raise ValueError."""
+        # Comprobamos que crear el hotel con "aa" lanza error directamente
+        self.assertRaises(ValueError, Hotel, 2, "Test", "City", "aa")
+        self.assertRaises(ValueError, Hotel, 2, "Test", "City", -5)
+
+    @patch("src.hotel.Hotel.get_all", return_value=[])
+    def test_create_hotel_invalid_data(self, mock_get):
+        """Test that create_hotel handles ValueError gracefully."""
+        # Comprobamos que el método de clase atrapa el error y retorna False
+        result = Hotel.create_hotel(2, "Test", "City", "aa")
+        self.assertFalse(result)
+        
+    def test_invalid_hotel_id(self):
+        """Test that invalid hotel ID raises ValueError."""
+        self.assertRaises(ValueError, Hotel, "A", "Test", "City", 10)
+        self.assertRaises(ValueError, Hotel, -1, "Test", "City", 10)
 
 if __name__ == "__main__":
     unittest.main()

@@ -13,7 +13,7 @@ class TestReservation(unittest.TestCase):
     @patch("src.reservation.Reservation.save_all")
     def test_create_reservation_success(self, mock_save, mock_hotel_res, mock_cust_get, mock_res_get):
         """Test successful reservation creation."""
-        mock_cust_get.return_value = [Customer(1, "John", "email")]
+        mock_cust_get.return_value = [Customer(1, "John", "john@email.com")]
         result = Reservation.create_reservation(100, 1, 10)
         self.assertTrue(result)
 
@@ -42,6 +42,15 @@ class TestReservation(unittest.TestCase):
         result = Reservation.cancel_reservation(100)
         self.assertTrue(result)
         self.assertTrue(mock_hotel_cancel.called)
+    
+    def test_invalid_ids_in_reservation(self):
+        """Test that invalid IDs in reservation raise ValueError."""
+        # Invalid reservation ID
+        self.assertRaises(ValueError, Reservation, "RES1", 1, 10)
+        # Invalid customer ID
+        self.assertRaises(ValueError, Reservation, 100, "CUST", 10)
+        # Invalid hotel ID
+        self.assertRaises(ValueError, Reservation, 100, 1, -5)
 
 if __name__ == "__main__":
     unittest.main()

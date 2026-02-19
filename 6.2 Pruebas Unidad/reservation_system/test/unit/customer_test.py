@@ -45,6 +45,21 @@ class TestCustomer(unittest.TestCase):
         result = Customer.modify_customer(1, name="Jane Doe")
         self.assertTrue(result)
         self.assertEqual(self.customer.name, "Jane Doe")
+    
+    def test_invalid_email_format(self):
+        """Test that invalid email format raises ValueError."""
+        self.assertRaises(ValueError, Customer, 2, "Test Name", "invalid_email")
+
+    @patch("src.customer.Customer.get_all", return_value=[])
+    def test_create_customer_invalid_data(self, mock_get):
+        """Test that create_customer handles ValueError gracefully."""
+        result = Customer.create_customer(2, "Test Name", "invalid_email")
+        self.assertFalse(result)
+    
+    def test_invalid_customer_id(self):
+        """Test that invalid customer ID raises ValueError."""
+        self.assertRaises(ValueError, Customer, "ID-1", "John", "john@email.com")
+        self.assertRaises(ValueError, Customer, 0, "John", "john@email.com")
         
 if __name__ == "__main__":
     unittest.main()

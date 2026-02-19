@@ -9,6 +9,15 @@ class Reservation:
     FILE_PATH = 'data/reservations.json'
 
     def __init__(self, reservation_id, customer_id, hotel_id):
+        # Validation for reservation attributes, ensuring data integrity.
+        # reservation_id, customer_id, and hotel_id must be positive integers.
+        if not isinstance(reservation_id, int) or reservation_id <= 0:
+            raise ValueError("Reservation ID must be a positive integer.")
+        if not isinstance(customer_id, int) or customer_id <= 0:
+            raise ValueError("Customer ID must be a positive integer.")
+        if not isinstance(hotel_id, int) or hotel_id <= 0:
+            raise ValueError("Hotel ID must be a positive integer.")
+
         self.reservation_id = reservation_id
         self.customer_id = customer_id
         self.hotel_id = hotel_id

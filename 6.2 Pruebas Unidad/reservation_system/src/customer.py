@@ -7,6 +7,16 @@ class Customer:
     FILE_PATH = 'data/customers.json'
 
     def __init__(self, customer_id, name, email):
+        # Validation for customer attributes, ensuring data integrity.
+        # customer_id must be a positive integer, email must contain '@', 
+        # and name cannot be empty.
+        if not isinstance(customer_id, int) or customer_id <= 0:
+            raise ValueError("Customer ID must be a positive integer.")
+        if not isinstance(email, str) or "@" not in email:
+            raise ValueError("Invalid email format.")
+        if not name:
+            raise ValueError("Name cannot be empty.")
+            
         self.customer_id = customer_id
         self.name = name
         self.email = email
@@ -43,7 +53,14 @@ class Customer:
         if any(c.customer_id == customer_id for c in customers):
             print(f"Error: Customer ID {customer_id} already exists.")
             return False
-        customers.append(cls(customer_id, name, email))
+            
+        try:
+            new_customer = cls(customer_id, name, email)
+        except ValueError as error:
+            print(f"Validation Error: {error}")
+            return False
+
+        customers.append(new_customer)
         cls.save_all(customers)
         return True
 
@@ -64,8 +81,10 @@ class Customer:
         customers = cls.get_all()
         for c in customers:
             if c.customer_id == customer_id:
-                c.name = name if name else c.name
-                c.email = email if email else c.email
+                if name:
+                    c.name = name
+                if email and "@" in email:
+                    c.email = email
                 cls.save_all(customers)
                 return True
         return False
