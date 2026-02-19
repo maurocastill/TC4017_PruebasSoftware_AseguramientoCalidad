@@ -99,11 +99,26 @@ class TestHotel(unittest.TestCase):
         # Comprobamos que el método de clase atrapa el error y retorna False
         result = Hotel.create_hotel(2, "Test", "City", "aa")
         self.assertFalse(result)
-        
+
     def test_invalid_hotel_id(self):
         """Test that invalid hotel ID raises ValueError."""
         self.assertRaises(ValueError, Hotel, "A", "Test", "City", 10)
         self.assertRaises(ValueError, Hotel, -1, "Test", "City", 10)
+    
+    @patch("src.hotel.Hotel.get_all")
+    @patch("src.hotel.Hotel.save_all")
+    def test_delete_non_existent_hotel(self, mock_save, mock_get):
+        """Test negative case: attempt to delete a hotel that does not exist."""
+        # Preparation: it simulates that the database only contains hotel ID 1
+        mock_get.return_value = [self.hotel] 
+        
+        # Action: it attempts to delete a hotel with ID 999 (Non-existent)
+        result = Hotel.delete_hotel(999)
+        
+        # Verification: The operation must fail (False) 
+        # and disk write (save_all) should NOT be invoked.
+        self.assertFalse(result)
+        self.assertFalse(mock_save.called)
 
 if __name__ == "__main__":
     unittest.main()
