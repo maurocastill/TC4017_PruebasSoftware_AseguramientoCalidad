@@ -3,6 +3,7 @@ import unittest
 from unittest.mock import patch, mock_open
 from src.hotel import Hotel
 
+
 class TestHotel(unittest.TestCase):
     """Test cases for Hotel functionality."""
 
@@ -82,7 +83,8 @@ class TestHotel(unittest.TestCase):
     @patch("src.hotel.Hotel.save_all")
     def test_cancel_reservation(self, _mock_save, mock_get):
         """Test restoring available rooms upon cancellation."""
-        self.hotel.available_rooms = 9  # Simular que hay una habitación ocupada
+        # Simular que hay una habitación ocupada
+        self.hotel.available_rooms = 9
         mock_get.return_value = [self.hotel]
         result = Hotel.cancel_reservation(1)
         self.assertTrue(result)
@@ -109,8 +111,9 @@ class TestHotel(unittest.TestCase):
     @patch("src.hotel.Hotel.get_all")
     @patch("src.hotel.Hotel.save_all")
     def test_delete_non_existent_hotel(self, mock_save, mock_get):
-        """Test negative case: attempt to delete a hotel that does not exist."""
-        # Preparation: it simulates that the database only contains hotel ID 1
+        """Test negative case: attempt to delete a hotel
+        that does not exist."""
+        # It simulates that the database only contains hotel ID 1
         mock_get.return_value = [self.hotel]
 
         # Action: it attempts to delete a hotel with ID 999 (Non-existent)
@@ -120,6 +123,7 @@ class TestHotel(unittest.TestCase):
         # and disk write (save_all) should NOT be invoked.
         self.assertFalse(result)
         self.assertFalse(mock_save.called)
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -4,6 +4,7 @@ from unittest.mock import patch
 from src.reservation import Reservation
 from src.customer import Customer
 
+
 class TestReservation(unittest.TestCase):
     """Test cases for Reservation functionality."""
 
@@ -13,7 +14,7 @@ class TestReservation(unittest.TestCase):
     @patch("src.reservation.Reservation.save_all")
     def test_create_reservation_success(
         self, _mock_save, _mock_hotel_res, mock_cust_get, _mock_res_get
-        ):
+            ):
         """Test successful reservation creation."""
         mock_cust_get.return_value = [Customer(1, "John", "john@email.com")]
         result = Reservation.create_reservation(100, 1, 10)
@@ -21,7 +22,9 @@ class TestReservation(unittest.TestCase):
 
     @patch("src.reservation.Reservation.get_all", return_value=[])
     @patch("src.customer.Customer.get_all", return_value=[])
-    def test_create_reservation_no_customer(self, _mock_cust_get, _mock_res_get):
+    def test_create_reservation_no_customer(
+        self, _mock_cust_get, _mock_res_get
+            ):
         # unused-arguments is needed for the patch but not used by linter,
         # so it is prefix with _ to avoid warnings.
         """Test negative case: customer does not exist."""
@@ -55,6 +58,7 @@ class TestReservation(unittest.TestCase):
         self.assertRaises(ValueError, Reservation, 100, "CUST", 10)
         # Invalid hotel ID
         self.assertRaises(ValueError, Reservation, 100, 1, -5)
+
 
 if __name__ == "__main__":
     unittest.main()

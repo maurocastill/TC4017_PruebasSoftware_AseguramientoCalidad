@@ -2,15 +2,16 @@
 import json
 import os
 
+
 class Hotel:
     """Represents a Hotel entity in the system."""
     FILE_PATH = 'data/hotels.json'
 
     def __init__(self, hotel_id, name, city, rooms, available_rooms=None):
-        # pylint: disable=too-many-arguments, too-many-positional-arguments
+        # pylint: disable=too-many-arguments, too-many-positional-arguments.
         # Validation for hotel attributes, ensuring data integrity.
-        # hotel_id must be a positive integer, rooms must be a non-negative integer,
-        # and name/city cannot be empty.
+        # hotel_id must be a positive integer, rooms must be a non-negative
+        # integer and name/city cannot be empty.
         if not isinstance(hotel_id, int) or hotel_id <= 0:
             raise ValueError("Hotel ID must be a positive integer.")
         if not isinstance(rooms, int) or rooms < 0:
@@ -22,7 +23,9 @@ class Hotel:
         self.name = name
         self.city = city
         self.rooms = rooms
-        self.available_rooms = available_rooms if available_rooms is not None else rooms
+        self.available_rooms = (
+            available_rooms if available_rooms is not None else rooms
+        )
 
     def to_dict(self):
         """Returns dictionary representation of the hotel."""

@@ -3,6 +3,7 @@ import unittest
 from unittest.mock import patch
 from src.customer import Customer
 
+
 class TestCustomer(unittest.TestCase):
     """Test cases for Customer functionality."""
 
@@ -50,7 +51,9 @@ class TestCustomer(unittest.TestCase):
 
     def test_invalid_email_format(self):
         """Test that invalid email format raises ValueError."""
-        self.assertRaises(ValueError, Customer, 2, "Test Name", "invalid_email")
+        self.assertRaises(
+            ValueError, Customer, 2, "Test Name", "invalid_email"
+            )
 
     @patch("src.customer.Customer.get_all", return_value=[])
     def test_create_customer_invalid_data(self, _mock_get):
@@ -60,8 +63,13 @@ class TestCustomer(unittest.TestCase):
 
     def test_invalid_customer_id(self):
         """Test that invalid customer ID raises ValueError."""
-        self.assertRaises(ValueError, Customer, "ID-1", "John", "john@email.com")
-        self.assertRaises(ValueError, Customer, 0, "John", "john@email.com")
+        self.assertRaises(
+            ValueError, Customer, "ID-1", "John", "john@email.com"
+            )
+        self.assertRaises(
+            ValueError, Customer, 0, "John", "john@email.com"
+            )
+
 
 if __name__ == "__main__":
     unittest.main()

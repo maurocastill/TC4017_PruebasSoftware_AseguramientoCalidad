@@ -2,6 +2,7 @@
 import json
 import os
 
+
 class Customer:
     """Represents a Customer entity in the system."""
     FILE_PATH = 'data/customers.json'

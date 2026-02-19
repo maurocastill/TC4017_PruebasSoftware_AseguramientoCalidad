@@ -4,6 +4,7 @@ import os
 from src.hotel import Hotel
 from src.customer import Customer
 
+
 class Reservation:
     """Represents a Reservation linking Customer and Hotel."""
     FILE_PATH = 'data/reservations.json'
