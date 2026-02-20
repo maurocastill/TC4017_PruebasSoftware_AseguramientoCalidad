@@ -72,10 +72,10 @@ class Reservation:
     def cancel_reservation(cls, reservation_id):
         """Cancels a reservation and frees the room."""
         reservations = cls.get_all()
-        for r in reservations:
-            if r.reservation_id == reservation_id:
-                Hotel.cancel_reservation(r.hotel_id)
-                reservations.remove(r)
+        for reservation in reservations:
+            if reservation.reservation_id == reservation_id:
+                Hotel.cancel_reservation(reservation.hotel_id)
+                reservations.remove(reservation)
                 cls.save_all(reservations)
                 return True
         return False

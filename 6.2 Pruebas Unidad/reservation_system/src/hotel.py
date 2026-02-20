@@ -8,7 +8,7 @@ class Hotel:
     FILE_PATH = 'data/hotels.json'
 
     def __init__(self, hotel_id, name, city, rooms, available_rooms=None):
-        # pylint: disable=too-many-arguments, too-many-positional-arguments.
+        # pylint: disable=too-many-arguments, too-many-positional-arguments
         # Validation for hotel attributes, ensuring data integrity.
         # hotel_id must be a positive integer, rooms must be a non-negative
         # integer and name/city cannot be empty.
@@ -86,12 +86,12 @@ class Hotel:
     def modify_hotel(cls, hotel_id, name=None, city=None):
         """Modifies a hotel's basic information."""
         hotels = cls.get_all()
-        for h in hotels:
-            if h.hotel_id == hotel_id:
+        for hotel in hotels:
+            if hotel.hotel_id == hotel_id:
                 if name:
-                    h.name = name
+                    hotel.name = name
                 if city:
-                    h.city = city
+                    hotel.city = city
                 cls.save_all(hotels)
                 return True
         return False
@@ -100,10 +100,10 @@ class Hotel:
     def reserve_room(cls, hotel_id):
         """Decreases available rooms by 1 if possible."""
         hotels = cls.get_all()
-        for h in hotels:
-            if h.hotel_id == hotel_id:
-                if h.available_rooms > 0:
-                    h.available_rooms -= 1
+        for hotel in hotels:
+            if hotel.hotel_id == hotel_id:
+                if hotel.available_rooms > 0:
+                    hotel.available_rooms -= 1
                     cls.save_all(hotels)
                     return True
                 print(f"Error: No available rooms in hotel {hotel_id}.")
@@ -114,10 +114,10 @@ class Hotel:
     def cancel_reservation(cls, hotel_id):
         """Increases available rooms by 1."""
         hotels = cls.get_all()
-        for h in hotels:
-            if h.hotel_id == hotel_id:
-                if h.available_rooms < h.rooms:
-                    h.available_rooms += 1
+        for hotel in hotels:
+            if hotel.hotel_id == hotel_id:
+                if hotel.available_rooms < hotel.rooms:
+                    hotel.available_rooms += 1
                     cls.save_all(hotels)
                     return True
         return False

@@ -79,12 +79,12 @@ class Customer:
     def modify_customer(cls, customer_id, name=None, email=None):
         """Modifies customer info."""
         customers = cls.get_all()
-        for c in customers:
-            if c.customer_id == customer_id:
+        for customer in customers:
+            if customer.customer_id == customer_id:
                 if name:
-                    c.name = name
+                    customer.name = name
                 if email and "@" in email:
-                    c.email = email
+                    customer.email = email
                 cls.save_all(customers)
                 return True
         return False
