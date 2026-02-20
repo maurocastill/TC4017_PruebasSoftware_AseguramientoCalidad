@@ -124,6 +124,35 @@ class TestHotel(unittest.TestCase):
         self.assertFalse(result)
         self.assertFalse(mock_save.called)
 
+    def test_empty_name_city(self):
+        """Test empty name or city raises ValueError."""
+        self.assertRaises(ValueError, Hotel, 1, "", "City", 10)
+        self.assertRaises(ValueError, Hotel, 1, "Name", "", 10)
+
+    @patch("builtins.open", side_effect=IOError)
+    @patch("os.makedirs")
+    def test_save_all_io_error(self, _mock_makedirs, _mock_file):
+        """Test save_all handles IOError."""
+        try:
+            Hotel.save_all([self.hotel])
+        except Exception:  # pylint: disable=broad-exception-caught
+            self.fail("save_all raised Exception unexpectedly on IOError")
+
+    @patch("src.hotel.Hotel.get_all", return_value=[])
+    def test_modify_non_existent_hotel(self, _mock_get):
+        """Test modify_hotel with non-existent ID."""
+        self.assertFalse(Hotel.modify_hotel(999, name="New Name"))
+
+    @patch("src.hotel.Hotel.get_all", return_value=[])
+    def test_reserve_room_non_existent_hotel(self, _mock_get):
+        """Test reserve_room with non-existent ID."""
+        self.assertFalse(Hotel.reserve_room(999))
+
+    @patch("src.hotel.Hotel.get_all", return_value=[])
+    def test_cancel_reservation_non_existent_hotel(self, _mock_get):
+        """Test cancel_reservation with non-existent ID."""
+        self.assertFalse(Hotel.cancel_reservation(999))
+
 
 if __name__ == "__main__":
     unittest.main()

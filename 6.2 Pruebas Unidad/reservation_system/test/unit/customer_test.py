@@ -70,6 +70,40 @@ class TestCustomer(unittest.TestCase):
             ValueError, Customer, 0, "John", "john@email.com"
             )
 
+    def test_empty_name(self):
+        """Test that empty name raises ValueError."""
+        self.assertRaises(ValueError, Customer, 1, "", "valid@email.com")
+
+    @patch("os.path.exists", return_value=False)
+    def test_get_all_file_not_exists(self, _mock_exists):
+        """Test get_all when file does not exist."""
+        self.assertEqual(Customer.get_all(), [])
+
+    @patch("builtins.open", side_effect=IOError)
+    @patch("os.path.exists", return_value=True)
+    def test_get_all_io_error(self, _mock_exists, _mock_file):
+        """Test get_all handles IOError."""
+        self.assertEqual(Customer.get_all(), [])
+
+    @patch("builtins.open", side_effect=IOError)
+    @patch("os.makedirs")
+    def test_save_all_io_error(self, _mock_makedirs, _mock_file):
+        """Test save_all handles IOError."""
+        try:
+            Customer.save_all([self.customer])
+        except Exception:  # pylint: disable=broad-exception-caught
+            self.fail("save_all raised Exception unexpectedly on IOError")
+
+    @patch("src.customer.Customer.get_all", return_value=[])
+    def test_delete_non_existent_customer(self, _mock_get):
+        """Test delete_customer with non-existent ID."""
+        self.assertFalse(Customer.delete_customer(999))
+
+    @patch("src.customer.Customer.get_all", return_value=[])
+    def test_modify_non_existent_customer(self, _mock_get):
+        """Test modify_customer with non-existent ID."""
+        self.assertFalse(Customer.modify_customer(999, name="New"))
+
 
 if __name__ == "__main__":
     unittest.main()
